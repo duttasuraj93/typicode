@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../../hooks'
-import { setAlbums, setPage, removeAlbum, addAlbum, updateAlbum, getAlbums, albumStatus, albumPage } from '../../redux/reducers/albums'
+import { removeAlbum, addAlbum, getAlbums, albumStatus, albumPage } from '../../redux/reducers/albums'
 import { useNavigate } from "react-router-dom";
-import { useSelector } from 'react-redux';
 
 
 const Albums = () => {
@@ -10,56 +9,15 @@ const Albums = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch()
   const reduxAlbums = useAppSelector((state) => state.albums)
+  const loading = useAppSelector(albumStatus)
+  const page = useAppSelector(albumPage)
   const [newAlbumInput, setNewAlbumInput] = useState<string>('')
 
 
-  // const [loading, setLoading] = useState<boolean>(false)
-
-  const loading = useAppSelector(albumStatus)
-  const page = useAppSelector(albumPage)
-
-
-
-  // async function getAlbums() {
-  //   await fetch(`https://jsonplaceholder.typicode.com/albums?_limit=${reduxAlbums.limit}&_page=${reduxAlbums.page}`,)
-  //     .then(res => res.json())
-  //     .then(res => {
-  //       dispatch(setAlbums(res))
-  //       dispatch(setPage(reduxAlbums.page + 1))
-  //       // setLoading(false)
-  //     }).catch(err => {
-  //       console.log("error");
-  //     })
-  // }
-
-  // useEffect(() => {
-
-  //   if (reduxAlbums.albumList.length === 0) {
-  //     getAlbums()
-  //   } else {
-  //     setLoading(false)
-  //   }
-
-
-  // }, [])
-
 
   useEffect(() => {
-    // console.log("thisiscalled");
-    let data = {
-      limit: 5,
-      page: 1
-    }
     dispatch(getAlbums({page}))
-    // console.log(albumStatus);
   }, [dispatch])
-
-
-  const loadMoreAlbums = () => {
-    dispatch(getAlbums({
-      page: page
-    }))
-  }
 
 
   const addNewAlbum = () => {
@@ -70,30 +28,14 @@ const Albums = () => {
       title: newAlbumInput
     }
     dispatch(addAlbum(body))
-
   }
-
-  
-
-
-  // const update = () => {
-  //   let data = {
-  //     id: 1,
-  //     userId: 1,
-  //     title: "hello world"
-  //   }
-  //   dispatch(updateAlbum(data))
-  // }
 
   const gotoEditAlbum = (id: string | number) => {
     navigate(`/album/edit/${id}`);
   }
 
-
   if (loading === 'loading') return <div>Loading</div>
   if (loading === 'failed') return <div>Failed to fetch albums</div>
-
-  // if (reduxAlbums.albumList.length === 0) return <div>no list</div>
 
   return (
     <div>
@@ -115,7 +57,7 @@ const Albums = () => {
           </div>
         ))}
       </div>
-      <button onClick={loadMoreAlbums}>Load More</button>
+      <button onClick={(e) => dispatch(getAlbums({page}))}>Load More</button>
     </div>
   )
 }
