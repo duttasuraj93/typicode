@@ -9,7 +9,7 @@ interface AlbumDetails {
   title: string
 }
 
-export default function EditAlbum() {
+const EditAlbum: React.FC = () => {
 
 
   const navigate = useNavigate();
@@ -65,3 +65,7 @@ export default function EditAlbum() {
     </div>
   )
 }
+
+
+
+export default EditAlbum

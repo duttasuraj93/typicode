@@ -4,7 +4,7 @@ import { removeAlbum, addAlbum, getAlbums, albumStatus, albumPage } from '../../
 import { useNavigate } from "react-router-dom";
 
 
-const Albums = () => {
+const Albums: React.FC = () => {
 
   const navigate = useNavigate();
   const dispatch = useAppDispatch()
