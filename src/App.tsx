@@ -12,7 +12,7 @@ import {
 import ProtectedRoute from './ProtectedRoute';
 import { useAppSelector, useAppDispatch } from './hooks'
 import Home from './routes/Home';
-import {setUser} from './redux/reducers/auth'
+import { setUser } from './redux/reducers/auth'
 
 const App: React.FC = () => {
   const reduxAuth = useAppSelector((state) => state.auth)
@@ -23,7 +23,7 @@ const App: React.FC = () => {
     const email = localStorage.getItem('email')
     const password = localStorage.getItem('password')
     console.log(email);
-    if(email && password) {
+    if (email && password) {
       let data = {
         email: email,
         password: password,
@@ -31,9 +31,9 @@ const App: React.FC = () => {
       }
       dispatch(setUser(data))
     }
-    
+
   }, [])
-  
+
 
 
   return (
@@ -48,22 +48,12 @@ const App: React.FC = () => {
               <Route path='/albums' element={<Albums />} />
               <Route path='/album/:id' element={<AlbumDetails />} />
             </Route>
+            {/* Fallback route */}
+            <Route
+              path="*"
+              element={<Navigate to="/" replace />}
+            />
           </Routes>
-          {/* <Routes>
-            <Route path="/login" element={<Login />} />
-            <Route path="/albums" element={
-              <ProtectedRoute>
-                <Albums />
-              </ProtectedRoute>
-            }
-            />
-            <Route path="/album/:id" element={
-              <ProtectedRoute>
-                <AlbumDetails />
-              </ProtectedRoute>
-            }
-            />
-          </Routes> */}
         </Suspense>
       </Router>
     </div>
