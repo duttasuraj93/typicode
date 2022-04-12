@@ -1,7 +1,4 @@
 import React, { lazy, Suspense, useEffect } from 'react';
-import Login from './routes/Login';
-import Albums from './routes/Albums';
-import AlbumDetails from './routes/AlbumDetails';
 import './App.css';
 import {
   BrowserRouter as Router,
@@ -11,8 +8,12 @@ import {
 } from "react-router-dom";
 import ProtectedRoute from './ProtectedRoute';
 import { useAppSelector, useAppDispatch } from './hooks'
-import Home from './routes/Home';
 import { setUser } from './redux/reducers/auth'
+
+const Login = lazy(() => import('./routes/Login'));
+const Home = lazy(() => import('./routes/Home'));
+const Albums = lazy(() => import('./routes/Albums'));
+const AlbumDetails = lazy(() => import('./routes/AlbumDetails'));
 
 const App: React.FC = () => {
   const reduxAuth = useAppSelector((state) => state.auth)
