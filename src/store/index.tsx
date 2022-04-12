@@ -1,11 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit'
 import theme from '../redux/reducers/theme';
 import auth from '../redux/reducers/auth';
+import albums from '../redux/reducers/albums';
 
 export const store = configureStore({
   reducer: {
     theme,
-    auth
+    auth,
+    albums
   },
 })
 
