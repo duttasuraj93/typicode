@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../../hooks'
-import { setAlbums, setPage, removeAlbum, addAlbum } from '../../redux/reducers/albums'
+import { setAlbums, setPage, removeAlbum, addAlbum, updateAlbum } from '../../redux/reducers/albums'
+import { useNavigate } from "react-router-dom";
 
 
 const Albums = () => {
 
+  const navigate = useNavigate();
   const dispatch = useAppDispatch()
   const reduxAlbums = useAppSelector((state) => state.albums)
   const [newAlbumInput, setNewAlbumInput] = useState<string>('')
@@ -29,6 +31,8 @@ const Albums = () => {
 
     if (reduxAlbums.albumList.length === 0) {
       getAlbums()
+    } else {
+      setLoading(false)
     }
 
 
@@ -39,11 +43,25 @@ const Albums = () => {
     if (!newAlbumInput.replace(/\s/g, '').length) return;
     let body = {
       userId: 1,
-      id: Math.floor(Math.random() * 100),
+      id: Math.floor(Math.random() * 1000),
       title: newAlbumInput
     }
     dispatch(addAlbum(body))
 
+  }
+
+
+  // const update = () => {
+  //   let data = {
+  //     id: 1,
+  //     userId: 1,
+  //     title: "hello world"
+  //   }
+  //   dispatch(updateAlbum(data))
+  // }
+
+  const gotoEditAlbum = (id: string | number) => {
+    navigate(`/album/edit/${id}`);
   }
 
 
@@ -61,7 +79,12 @@ const Albums = () => {
         {reduxAlbums.albumList.map(item => (
           <div key={item.id}>
             <img src={`https://via.placeholder.com/200?text=${item.title}`} alt="" />
-            <h4>{item.title}</h4>
+            <div>
+              <h4>
+                {item.title}
+              </h4>
+            </div>
+            <button onClick={(e) => gotoEditAlbum(item.id)}>Update</button>
             <button onClick={(e) => dispatch(removeAlbum(item.id))}>Remove Album</button>
           </div>
         ))}

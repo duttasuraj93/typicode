@@ -37,10 +37,15 @@ export const albumsSlice = createSlice({
     addAlbum: (state, action: PayloadAction<AlbumState>) => {
       state.albumList = [...state.albumList, action.payload]
     },
+    updateAlbum: (state, action: PayloadAction<AlbumState>) => {
+      const index = state.albumList.findIndex(x => x.id === action.payload.id);
+      state.albumList[index].title = action.payload.title
+
+    },
   },
 })
 
-export const { setAlbums, setPage, removeAlbum, addAlbum } = albumsSlice.actions
+export const { setAlbums, setPage, removeAlbum, addAlbum, updateAlbum } = albumsSlice.actions
 
 export const selectCount = (state: RootState) => state.albums
 

@@ -13,7 +13,7 @@ import { setUser } from './redux/reducers/auth'
 const Login = lazy(() => import('./routes/Login'));
 const Home = lazy(() => import('./routes/Home'));
 const Albums = lazy(() => import('./routes/Albums'));
-const AlbumDetails = lazy(() => import('./routes/AlbumDetails'));
+const EditAlbum = lazy(() => import('./routes/EditAlbum'));
 
 const App: React.FC = () => {
   const reduxAuth = useAppSelector((state) => state.auth)
@@ -47,7 +47,7 @@ const App: React.FC = () => {
             {/* Protected Routes starts from here */}
             <Route element={<ProtectedRoute auth={reduxAuth.isLoggedIn} />}>
               <Route path='/albums' element={<Albums />} />
-              <Route path='/album/:id' element={<AlbumDetails />} />
+              <Route path='/album/edit/:id' element={<EditAlbum />} />
             </Route>
             {/* Fallback route */}
             <Route
